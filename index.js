@@ -1,62 +1,48 @@
-function playGame(){
 
-function getComputerChoice() {
-  let randomChoices = Math.floor(Math.random() * 3)
-  // console.log(randomChoices)
-  if(randomChoices === 0 ) {
-    return 'rock'
-  } else if (randomChoices === 1 ) {
-    return 'paper'
-  } else if (randomChoices === 2 ){
-    return 'scissors'
-  }
-}
+const choices = ['rock','paper','scissors']
+const playerChoiceDisplay = document.querySelector("#playerChoiceDisplay");
+const computerChoiceDisplay = document.querySelector("#computerChoiceDisplay");
+const resultDisplay = document.querySelector('#resultDisplay')
 
-function getHumanChoice() {
-  let humanChoice = prompt('Hello! Please enter the following options: Rock or Paper or Scissors')
-  if(humanChoice === 'rock' || 'paper' || 'scissors') {
-    humanChoice = humanChoice.toLowerCase()
-  } 
-  return humanChoice;
-}
+const playerScore = document.querySelector('#playerScore')
+const computerScore = document.querySelector('#computerScore')
+const roundDisplay = document.querySelector('#gameRound')
 
-    let humanScore = 0
-    let computerScore = 0
+let computerChoice = choices[Math.floor(Math.random()* 3)]
 
-function playRound(humanChoice, computerChoice) {
+let playerResult = 0;
+let computerResult = 0;
+
+function playRound(playerChoice) {
+
+    playerChoiceDisplay.textContent = `Player: ${playerChoice}`;
+    computerChoiceDisplay.textContent = `Computer: ${computerChoice}`;
     
-    if(humanChoice === computerChoice){
-      console.log('DRAW! You selected the same option as the opponent!')
-      humanScore++
-      computerScore++ 
-      console.log('----------------')
-      } else if ((humanChoice === 'rock' && computerChoice === 'scissors') || (humanChoice === 'paper' && computerChoice === 'rock') ||  (humanChoice === 'scissor' && computerChoice === 'paper' )) {
-        console.log(`You WIN! ${humanChoice} beats ${computerChoice}! `)
-        console.log('----------------')
-        humanScore++
+    if(playerChoice === computerChoice){
+        resultDisplay.textContent = 'DRAW! You selected the same option as the opponent! 😶'
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') || 
+        (playerChoice === 'paper' && computerChoice === 'rock') ||  
+        (playerChoice === 'scissor' && computerChoice === 'paper' )) {
+          resultDisplay.textContent = `You WIN! ${playerChoice} beats ${computerChoice}! 😁`
+          playerResult++
+          playerScore.textContent = `${playerResult}`
+          computerScore.textContent = `${computerResult}`
       } else {
-        console.log(`You Lose! ${computerChoice} beats ${humanChoice}! `)
-        console.log('----------------')
-        computerScore++
+          resultDisplay.textContent = `You Lose! ${computerChoice} beats ${playerChoice}! 😖`
+          computerResult++
+          playerScore.textContent = `${playerResult}`
+          computerScore.textContent = `${computerResult}`
       }
+
+      if( playerResult === 5) {
+        resultDisplay.textContent = `Congratulations! You win the Round! 😁`
+        let playerResult = 0;
+        let computerResult = 0;
+      } else if( computerResult === 5) {
+        resultDisplay.textContent = `Computer wins the Round! 😖 Try again `
+        let playerResult = 0;
+        let computerResult = 0;
+      }
+
     }
-
-
-  for (let i = 1; i <=5 ; i++) {
-    let humanSelection = getHumanChoice()
-    let computerSelection = getComputerChoice();
-    console.log('Player CHOICE: '+ humanSelection)
-    console.log('Computer CHOICE: '+computerSelection)
-    console.log(`Game round: ${i}`)
-    playRound(humanSelection,computerSelection)
-  }
-  if ( humanScore > computerScore) {
-    console.log('You win the game! Congratulations!')
-  } else if ( computerScore > humanScore ) {
-    console.log('You lose the game! try again!')
-  }else if (computerScore === humanScore) {
-    console.log('Draw! Please refresh page(F5) and try again')
-  }
-}
-
-playGame()
